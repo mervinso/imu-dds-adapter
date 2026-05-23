@@ -4,6 +4,7 @@ project(imu_dds_monitor)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTOUIC_SEARCH_PATHS resource)
 
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)

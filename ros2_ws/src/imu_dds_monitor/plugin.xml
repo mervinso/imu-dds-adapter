@@ -2,6 +2,14 @@
   <class name="imu_dds_monitor/ImuMonitorPlugin"
          type="imu_dds_monitor::ImuMonitorPlugin"
          base_class_type="rqt_gui_cpp::Plugin">
-    <description>Plugin rqt para monitoreo del adaptador IMU-DDS</description>
+    <description>Monitor para el adaptador IMU-DDS — Raw ASCII, Parsed Fields, DDS Output</description>
+    <qtgui>
+      <group>
+        <label>IMU</label>
+      </group>
+      <label>IMU DDS Monitor</label>
+      <icon type="theme">utilities-system-monitor</icon>
+      <statustip>Visualiza datos raw, parseados y DDS del sensor VN-100</statustip>
+    </qtgui>
   </class>
 </library>

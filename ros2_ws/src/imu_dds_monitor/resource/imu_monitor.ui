@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ImuMonitorWidget</class>
+ <widget class="QWidget" name="ImuMonitorWidget">
+  <property name="windowTitle"><string>IMU DDS Monitor</string></property>
+  <layout class="QVBoxLayout" name="main_layout">
+   <item>
+    <widget class="QTabWidget" name="tab_widget">
+     <property name="currentIndex"><number>0</number></property>
+     <widget class="QWidget" name="raw_tab">
+      <attribute name="title"><string>Raw ASCII</string></attribute>
+      <layout class="QVBoxLayout">
+       <item>
+        <widget class="QTextEdit" name="raw_text">
+         <property name="readOnly"><bool>true</bool></property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="parsed_tab">
+      <attribute name="title"><string>Parsed Fields</string></attribute>
+      <layout class="QVBoxLayout">
+       <item>
+        <widget class="QTableWidget" name="parsed_table">
+         <property name="columnCount"><number>2</number></property>
+         <property name="rowCount"><number>11</number></property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="dds_tab">
+      <attribute name="title"><string>DDS Output</string></attribute>
+      <layout class="QVBoxLayout">
+       <item>
+        <widget class="QTableWidget" name="dds_table">
+         <property name="columnCount"><number>2</number></property>
+         <property name="rowCount"><number>12</number></property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="status_label">
+     <property name="text"><string>Desconectado</string></property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+</ui>

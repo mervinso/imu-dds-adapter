@@ -57,7 +57,11 @@ ImuPublisherNode::~ImuPublisherNode() {
 void ImuPublisherNode::serialReaderThread() {
     while (running_) {
         try {
-            std::string line = serial_.readline();
+            std::string line;
+            {
+                std::lock_guard<std::mutex> lock(serial_mutex_);
+                line = serial_.readline();
+            }
 
             auto raw_msg = std_msgs::msg::String();
             raw_msg.data = line;
@@ -135,6 +139,7 @@ void ImuPublisherNode::timerCallback() {
 
 void ImuPublisherNode::pollQuaternion() {
     try {
+        std::lock_guard<std::mutex> lock(serial_mutex_);
         serial_.write("$VNRRG,09*XX");
     } catch (const SerialPortException& e) {
         RCLCPP_WARN(get_logger(), "Error en polling de cuaternión: %s", e.what());
@@ -180,6 +185,7 @@ bool ImuPublisherNode::tryReconfigure() {
     for (int i = 0; i < 3; ++i) {
         RCLCPP_WARN(get_logger(), "Intento de reconfiguración %d/3", i + 1);
         try {
+            std::lock_guard<std::mutex> lock(serial_mutex_);
             serial_.configureSensor(output_hz_);
             return true;
         } catch (...) {

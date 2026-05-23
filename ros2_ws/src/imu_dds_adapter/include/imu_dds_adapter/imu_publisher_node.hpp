@@ -41,6 +41,7 @@ private:
 
     // ── Objetos de comunicación ──────────────────────────────────
     SerialPort  serial_;
+    std::mutex  serial_mutex_;  // protege acceso concurrente al puerto
 
     // ── Threading ────────────────────────────────────────────────
     std::thread reader_thread_;

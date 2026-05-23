@@ -1,0 +1,39 @@
+Panels:
+  - Class: rviz_common/Displays
+    Name: Displays
+  - Class: rviz_common/Selection
+    Name: Selection
+  - Class: rviz_common/Views
+    Name: Views
+
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Class: rviz_common/TF
+      Enabled: true
+      Name: TF
+      Value: true
+    - Class: rviz_imu_plugin/Imu
+      Enabled: true
+      Name: IMU
+      Topic:
+        Value: /imu/data
+      Box enabled: true
+      Axes enabled: true
+      Acc enabled: true
+      Acc color:
+        r: 1.0
+        g: 0.0
+        b: 0.0
+        a: 1.0
+      Acc deque size: 50
+      Acc scale: 1.0
+  Global Options:
+    Fixed Frame: imu_link
+    Frame Rate: 50
+  Views:
+    Current:
+      Class: rviz_default_plugins/Orbit
+      Distance: 2.5
+      Pitch: 0.4
+      Yaw: 0.8

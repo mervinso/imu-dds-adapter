@@ -15,7 +15,6 @@ find_package(diagnostic_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_ros REQUIRED)
-find_package(visualization_msgs REQUIRED)
 
 set(ADAPTER_SOURCES
   src/nmea_parser.cpp
@@ -39,7 +38,6 @@ target_link_libraries(imu_dds_adapter_node
   geometry_msgs::geometry_msgs
   tf2::tf2
   tf2_ros::tf2_ros
-  visualization_msgs::visualization_msgs
 )
 
 install(TARGETS imu_dds_adapter_node DESTINATION lib/${PROJECT_NAME})

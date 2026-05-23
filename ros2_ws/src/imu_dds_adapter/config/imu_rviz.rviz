@@ -11,10 +11,9 @@ Panels:
 Visualization Manager:
   Class: ""
   Displays:
-    - Class: rviz_common/TF
+    - Class: rviz_default_plugins/TF
       Enabled: true
       Name: TF
-      Value: true
       Frame Timeout: 15
       Marker Scale: 0.3
       Show Arrows: true

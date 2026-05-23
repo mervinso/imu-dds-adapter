@@ -1,0 +1,8 @@
+imu_dds_adapter:
+  ros__parameters:
+    serial_port: /dev/ttyUSB0
+    baud_rate: 115200
+    output_hz: 50
+    quat_poll_every_n: 5
+    frame_id: imu_link
+    reconfigure_sensor: true

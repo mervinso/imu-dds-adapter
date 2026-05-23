@@ -261,6 +261,83 @@ Cuando el cuaternión no ha sido polleado aún, `orientation_covariance[0] = -1`
 
 ---
 
+## Verificación manual en Lyrical
+
+El badge de CI documenta los pasos pero no ejecuta el build en los runners de GitHub, ya que ROS 2 Lyrical requiere instalación local (no está disponible como imagen de GitHub Actions). Para verificar el proyecto en tu máquina con Lyrical instalado:
+
+### 1. Build completo
+
+```bash
+cd imu-dds-adapter/ros2_ws
+source /opt/ros/lyrical/setup.bash
+
+colcon build \
+  --build-base build \
+  --install-base install \
+  2>&1 | grep -E "Starting|Finished|Failed"
+```
+
+Salida esperada:
+```
+Starting >>> imu_dds_adapter
+Starting >>> imu_dds_monitor
+Finished <<< imu_dds_adapter [Xs]
+Finished <<< imu_dds_monitor [Xs]
+```
+
+### 2. Tests unitarios
+
+```bash
+source /opt/ros/lyrical/setup.bash
+
+colcon test \
+  --build-base build \
+  --install-base install \
+  --packages-select imu_dds_adapter
+
+colcon test-result --verbose
+```
+
+Salida esperada (16 tests):
+```
+build/imu_dds_adapter/test_results/.../test_nmea_parser.xml:
+  10 tests, 0 errors, 0 failures
+
+build/imu_dds_adapter/test_results/.../test_imu_converter.xml:
+  6 tests, 0 errors, 0 failures
+```
+
+### 3. Verificación con sensor real
+
+Con el VN-100S-CR conectado en `/dev/ttyUSB0`:
+
+```bash
+source /opt/ros/lyrical/setup.bash
+source ros2_ws/install/setup.bash
+
+# Terminal 1 — arrancar el adaptador
+ros2 launch imu_dds_adapter imu_dds.launch.py
+
+# Terminal 2 — verificar publicación
+ros2 topic hz /imu/data          # debe mostrar ~50 Hz
+ros2 topic echo /imu/data --once  # verificar linear_acceleration.z ≈ -9.8
+
+# Terminal 2 — ver diagnósticos
+ros2 topic echo /imu/status --once
+# checksum_errors debe ser 0
+```
+
+### 4. Plugin rqt
+
+```bash
+source /opt/ros/lyrical/setup.bash
+source ros2_ws/install/setup.bash
+
+rqt --standalone imu_dds_monitor/ImuMonitorPlugin
+```
+
+---
+
 ## Solución de problemas
 
 **El nodo no abre `/dev/ttyUSB0`**

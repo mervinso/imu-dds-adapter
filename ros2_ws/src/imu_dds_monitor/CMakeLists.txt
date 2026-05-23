@@ -24,6 +24,7 @@ else()
 endif()
 
 add_library(imu_dds_monitor SHARED
+  include/imu_dds_monitor/imu_monitor_widget.hpp
   src/imu_monitor_plugin.cpp
   src/imu_monitor_widget.cpp
 )

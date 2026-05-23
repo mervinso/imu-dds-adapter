@@ -14,7 +14,7 @@ def generate_launch_description():
     return LaunchDescription([
         DeclareLaunchArgument('rviz',        default_value='false',
                               description='Launch RViz2 visualization'),
-        DeclareLaunchArgument('serial_port', default_value='/dev/ttyUSB0',
+        DeclareLaunchArgument('serial_port', default_value='/dev/imu',
                               description='Serial port of the IMU sensor'),
         DeclareLaunchArgument('output_hz',   default_value='50',
                               description='Publication frequency in Hz'),

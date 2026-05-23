@@ -1,5 +1,10 @@
 # IMU-DDS Adapter
 
+[![CI](https://github.com/mervinso/imu-dds-adapter/actions/workflows/ci.yml/badge.svg)](https://github.com/mervinso/imu-dds-adapter/actions/workflows/ci.yml)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
+[![ROS 2](https://img.shields.io/badge/ROS%202-Lyrical-blue?logo=ros)](https://docs.ros.org)
+[![Release](https://img.shields.io/github/v/release/mervinso/imu-dds-adapter)](https://github.com/mervinso/imu-dds-adapter/releases)
+
 Adaptador ROS 2 entre el protocolo NMEA 0183 del sensor inercial **VectorNav VN-100S-CR** y el estándar de middleware **OMG DDS**, desarrollado como proyecto de tesis de maestría.
 
 El sistema lee datos IMU en ASCII desde el sensor por UART a 50 Hz, los parsea, aplica la rotación de referencia NED→ENU y los publica como mensajes `sensor_msgs/Imu` sobre Fast-DDS. Incluye un plugin de monitorización para rqt con tres vistas en tiempo real.

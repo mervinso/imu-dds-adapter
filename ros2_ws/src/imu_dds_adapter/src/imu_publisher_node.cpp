@@ -1,5 +1,6 @@
 #include "imu_dds_adapter/imu_publisher_node.hpp"
 #include <geometry_msgs/msg/transform_stamped.hpp>
+#include <visualization_msgs/msg/marker.hpp>
 #include <chrono>
 
 using namespace std::chrono_literals;
@@ -20,6 +21,7 @@ ImuPublisherNode::ImuPublisherNode(const rclcpp::NodeOptions& options)
     imu_raw_pub_   = create_publisher<sensor_msgs::msg::Imu>("/imu/data_raw",  10);
     raw_ascii_pub_ = create_publisher<std_msgs::msg::String>("/imu/raw_ascii", 10);
     status_pub_    = create_publisher<diagnostic_msgs::msg::DiagnosticStatus>("/imu/status", 1);
+    marker_pub_    = create_publisher<visualization_msgs::msg::Marker>("/imu/marker", 10);
 
     tf_broadcaster_ = std::make_shared<tf2_ros::TransformBroadcaster>(this);
 
@@ -138,6 +140,23 @@ void ImuPublisherNode::timerCallback() {
         tf.transform.rotation = imu_msg.orientation;
     }
     tf_broadcaster_->sendTransform(tf);
+
+    visualization_msgs::msg::Marker marker;
+    marker.header.stamp    = imu_msg.header.stamp;
+    marker.header.frame_id = frame_id_;
+    marker.ns     = "imu_sensor";
+    marker.id     = 0;
+    marker.type   = visualization_msgs::msg::Marker::CUBE;
+    marker.action = visualization_msgs::msg::Marker::ADD;
+    marker.pose.orientation.w = 1.0;
+    marker.scale.x = 0.08;
+    marker.scale.y = 0.04;
+    marker.scale.z = 0.02;
+    marker.color.r = 0.2f;
+    marker.color.g = 0.6f;
+    marker.color.b = 1.0f;
+    marker.color.a = 0.85f;
+    marker_pub_->publish(marker);
 
     quat_poll_counter_++;
     if (quat_poll_counter_ >= quat_poll_every_n_) {

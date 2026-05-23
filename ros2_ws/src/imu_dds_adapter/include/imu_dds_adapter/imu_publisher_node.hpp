@@ -8,7 +8,7 @@
 #include <sensor_msgs/msg/imu.hpp>
 #include <std_msgs/msg/string.hpp>
 #include <diagnostic_msgs/msg/diagnostic_status.hpp>
-#include <tf2_ros/static_transform_broadcaster.hpp>
+#include <tf2_ros/transform_broadcaster.hpp>
 
 #include <thread>
 #include <mutex>
@@ -27,7 +27,6 @@ private:
     void serialReaderThread();
     void timerCallback();
     void pollQuaternion();
-    void publishStaticTransform();
     void publishDiagnostics();
     bool tryReconfigure();
 
@@ -62,7 +61,7 @@ private:
     rclcpp::TimerBase::SharedPtr timer_;
     rclcpp::TimerBase::SharedPtr diag_timer_;
 
-    std::shared_ptr<tf2_ros::StaticTransformBroadcaster> tf_broadcaster_;
+    std::shared_ptr<tf2_ros::TransformBroadcaster> tf_broadcaster_;
 
     // ── Métricas de diagnóstico ──────────────────────────────────
     std::atomic<uint64_t> frames_received_{0};

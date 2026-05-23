@@ -21,7 +21,7 @@ ImuPublisherNode::ImuPublisherNode(const rclcpp::NodeOptions& options)
     raw_ascii_pub_ = create_publisher<std_msgs::msg::String>("/imu/raw_ascii", 10);
     status_pub_    = create_publisher<diagnostic_msgs::msg::DiagnosticStatus>("/imu/status", 1);
 
-    tf_broadcaster_ = std::make_shared<tf2_ros::StaticTransformBroadcaster>(this);
+    tf_broadcaster_ = std::make_shared<tf2_ros::TransformBroadcaster>(this);
 
     RCLCPP_INFO(get_logger(), "Abriendo %s a %d baud", serial_port_.c_str(), baud_rate_);
     try {
@@ -34,8 +34,6 @@ ImuPublisherNode::ImuPublisherNode(const rclcpp::NodeOptions& options)
         RCLCPP_FATAL(get_logger(), "Error de puerto serial: %s", e.what());
         throw;
     }
-
-    publishStaticTransform();
 
     running_ = true;
     reader_thread_ = std::thread(&ImuPublisherNode::serialReaderThread, this);
@@ -130,6 +128,17 @@ void ImuPublisherNode::timerCallback() {
     imu_pub_->publish(imu_msg);
     imu_raw_pub_->publish(imu_msg);
 
+    geometry_msgs::msg::TransformStamped tf;
+    tf.header.stamp    = imu_msg.header.stamp;
+    tf.header.frame_id = "map";
+    tf.child_frame_id  = frame_id_;
+    if (imu_msg.orientation_covariance[0] < 0.0) {
+        tf.transform.rotation.w = 1.0;
+    } else {
+        tf.transform.rotation = imu_msg.orientation;
+    }
+    tf_broadcaster_->sendTransform(tf);
+
     quat_poll_counter_++;
     if (quat_poll_counter_ >= quat_poll_every_n_) {
         quat_poll_counter_ = 0;
@@ -144,21 +153,6 @@ void ImuPublisherNode::pollQuaternion() {
     } catch (const SerialPortException& e) {
         RCLCPP_WARN(get_logger(), "Error en polling de cuaternión: %s", e.what());
     }
-}
-
-void ImuPublisherNode::publishStaticTransform() {
-    geometry_msgs::msg::TransformStamped tf;
-    tf.header.stamp    = now();
-    tf.header.frame_id = "map";
-    tf.child_frame_id  = frame_id_;
-    tf.transform.translation.x = 0.0;
-    tf.transform.translation.y = 0.0;
-    tf.transform.translation.z = 0.0;
-    tf.transform.rotation.x = 0.0;
-    tf.transform.rotation.y = 0.0;
-    tf.transform.rotation.z = 0.0;
-    tf.transform.rotation.w = 1.0;
-    tf_broadcaster_->sendTransform(tf);
 }
 
 void ImuPublisherNode::publishDiagnostics() {

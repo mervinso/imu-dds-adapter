@@ -1,8 +1,10 @@
 Panels:
   - Class: rviz_common/Displays
+    Help Height: 0
     Name: Displays
-  - Class: rviz_common/Selection
-    Name: Selection
+    Property Tree Widget:
+      Expanded: ~
+      Splitter Ratio: 0.5
   - Class: rviz_common/Views
     Name: Views
 
@@ -13,27 +15,72 @@ Visualization Manager:
       Enabled: true
       Name: TF
       Value: true
+      Frame Timeout: 15
+      Marker Scale: 0.3
+      Show Arrows: true
+      Show Axes: true
+      Show Names: true
+      Update Interval: 0
     - Class: rviz_imu_plugin/Imu
       Enabled: true
       Name: IMU
       Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
         Value: /imu/data
-      Box enabled: true
-      Axes enabled: true
+      Acc Deque Size: 50
+      Acc Scale: 1.0
       Acc enabled: true
       Acc color:
         r: 1.0
         g: 0.0
         b: 0.0
         a: 1.0
-      Acc deque size: 50
-      Acc scale: 1.0
+      Axes Scale: 1.0
+      Axes enabled: true
+      Box Scale X: 0.3
+      Box Scale Y: 0.1
+      Box Scale Z: 0.05
+      Box color:
+        r: 0.0
+        g: 0.5
+        b: 1.0
+        a: 1.0
+      Box enabled: true
   Global Options:
+    Background Color:
+      r: 0.05
+      g: 0.05
+      b: 0.05
     Fixed Frame: imu_link
     Frame Rate: 50
+  Tools:
+    - Class: rviz_default_plugins/Interact
+      Mouse Wheel Zoom: true
+    - Class: rviz_default_plugins/MoveCamera
+    - Class: rviz_default_plugins/Select
+  Value: true
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
       Distance: 2.5
+      Enable Stereo Rendering:
+        Stereo Eye Separation: 0.06
+        Stereo Focal Distance: 1
+        Swap Stereo Eyes: false
+        Value: false
+      Focal Point:
+        X: 0
+        Y: 0
+        Z: 0
+      Focal Shape Fixed Size: true
+      Focal Shape Size: 0.05
+      Invert Z Axis: false
+      Name: Current View
+      Near Clip Distance: 0.01
       Pitch: 0.4
+      Target Frame: imu_link
       Yaw: 0.8
+    Saved: ~

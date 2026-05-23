@@ -10,6 +10,7 @@ def generate_launch_description():
     pkg = get_package_share_directory('imu_dds_adapter')
     config = os.path.join(pkg, 'config', 'adapter_params.yaml')
     rviz_config = os.path.join(pkg, 'config', 'imu_rviz.rviz')
+    urdf = open(os.path.join(pkg, 'urdf', 'vn100.urdf')).read()
 
     return LaunchDescription([
         DeclareLaunchArgument('rviz',        default_value='false',
@@ -28,6 +29,12 @@ def generate_launch_description():
             }],
             output='screen',
             emulate_tty=True,
+        ),
+        Node(
+            package='robot_state_publisher',
+            executable='robot_state_publisher',
+            name='robot_state_publisher',
+            parameters=[{'robot_description': urdf}],
         ),
         Node(
             package='rviz2',

@@ -44,6 +44,7 @@ install(TARGETS imu_dds_adapter_node DESTINATION lib/${PROJECT_NAME})
 install(DIRECTORY include/ DESTINATION include)
 install(DIRECTORY config/ DESTINATION share/${PROJECT_NAME}/config)
 install(DIRECTORY launch/ DESTINATION share/${PROJECT_NAME}/launch)
+install(DIRECTORY urdf/   DESTINATION share/${PROJECT_NAME}/urdf)
 
 if(BUILD_TESTING)
   find_package(ament_cmake_gtest REQUIRED)

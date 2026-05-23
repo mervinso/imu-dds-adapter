@@ -1,0 +1,7 @@
+<library path="imu_dds_monitor">
+  <class name="imu_dds_monitor/ImuMonitorPlugin"
+         type="imu_dds_monitor::ImuMonitorPlugin"
+         base_class_type="rqt_gui_cpp::Plugin">
+    <description>Plugin rqt para monitoreo del adaptador IMU-DDS</description>
+  </class>
+</library>

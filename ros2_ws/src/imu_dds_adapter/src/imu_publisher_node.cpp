@@ -1,6 +1,5 @@
 #include "imu_dds_adapter/imu_publisher_node.hpp"
 #include <geometry_msgs/msg/transform_stamped.hpp>
-#include <geometry_msgs/msg/pose_stamped.hpp>
 #include <chrono>
 
 using namespace std::chrono_literals;
@@ -21,7 +20,6 @@ ImuPublisherNode::ImuPublisherNode(const rclcpp::NodeOptions& options)
     imu_raw_pub_   = create_publisher<sensor_msgs::msg::Imu>("/imu/data_raw",  10);
     raw_ascii_pub_ = create_publisher<std_msgs::msg::String>("/imu/raw_ascii", 10);
     status_pub_    = create_publisher<diagnostic_msgs::msg::DiagnosticStatus>("/imu/status", 1);
-    pose_pub_      = create_publisher<geometry_msgs::msg::PoseStamped>("/imu/pose", 10);
 
     tf_broadcaster_ = std::make_shared<tf2_ros::TransformBroadcaster>(this);
 
@@ -140,16 +138,6 @@ void ImuPublisherNode::timerCallback() {
         tf.transform.rotation = imu_msg.orientation;
     }
     tf_broadcaster_->sendTransform(tf);
-
-    geometry_msgs::msg::PoseStamped pose;
-    pose.header.stamp    = imu_msg.header.stamp;
-    pose.header.frame_id = "map";
-    if (imu_msg.orientation_covariance[0] >= 0.0) {
-        pose.pose.orientation = imu_msg.orientation;
-    } else {
-        pose.pose.orientation.w = 1.0;
-    }
-    pose_pub_->publish(pose);
 
     quat_poll_counter_++;
     if (quat_poll_counter_ >= quat_poll_every_n_) {

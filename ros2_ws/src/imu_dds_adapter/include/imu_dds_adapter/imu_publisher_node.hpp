@@ -9,7 +9,6 @@
 #include <std_msgs/msg/string.hpp>
 #include <diagnostic_msgs/msg/diagnostic_status.hpp>
 #include <tf2_ros/transform_broadcaster.hpp>
-#include <geometry_msgs/msg/pose_stamped.hpp>
 
 #include <thread>
 #include <mutex>
@@ -59,7 +58,6 @@ private:
     rclcpp::Publisher<sensor_msgs::msg::Imu>::SharedPtr                imu_raw_pub_;
     rclcpp::Publisher<std_msgs::msg::String>::SharedPtr                raw_ascii_pub_;
     rclcpp::Publisher<diagnostic_msgs::msg::DiagnosticStatus>::SharedPtr status_pub_;
-    rclcpp::Publisher<geometry_msgs::msg::PoseStamped>::SharedPtr         pose_pub_;
     rclcpp::TimerBase::SharedPtr timer_;
     rclcpp::TimerBase::SharedPtr diag_timer_;
 
